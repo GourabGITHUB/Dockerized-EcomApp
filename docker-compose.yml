@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  product-service:
+    build:
+      context: ./Products
+    ports:
+      - "3000:3000"
+    restart: always
+
+  cart-service:
+    build:
+      context: ./Cart
+    ports:
+      - "3002:3002"
+    restart: always
+
+  api-gateway:
+    build:
+      context: ./Gateway
+    ports:
+      - "3000:3000"
+    restart: always
+ frontend:
+    build:
+      context: ./Frontend
+    ports:
+      - "80:80"
+    restart: always
+ 
