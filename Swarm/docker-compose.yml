@@ -2,7 +2,7 @@ version: '3.8'  # Docker Compose file version
 
 services:  # Define services section
   mongodb:  # MongoDB service
-    image: dockerized-mongodb  # Use the specified Docker image for MongoDB
+    image: dockerized-ecomapp-mongodb  # Use the specified Docker image for MongoDB
     deploy:  # Deploy configuration for MongoDB service
       replicas: 2  # Set the number of replicas to 2
       restart_policy:  # Define restart policy for MongoDB service
@@ -24,7 +24,7 @@ services:  # Define services section
       start_period: 10s  # Delay before starting health checks
 
   products:  # Products service
-    image: dockerized-products  # Use the specified Docker image for Products service
+    image: dockerized-ecomapp-products  # Use the specified Docker image for Products service
     deploy:  # Deploy configuration for Products service
       replicas: 2  # Set the number of replicas to 2
       restart_policy:  # Define restart policy for Products service
@@ -44,7 +44,7 @@ services:  # Define services section
     user: temp  # Set the user to 'temp'
 
   cart:  # Cart service
-    image: dockerized-cart  # Use the specified Docker image for Cart service
+    image: dockerized-ecomapp-cart  # Use the specified Docker image for Cart service
     deploy:  # Deploy configuration for Cart service
       replicas: 2  # Set the number of replicas to 2
       restart_policy:  # Define restart policy for Cart service
@@ -62,7 +62,7 @@ services:  # Define services section
     user: temp  # Set the user to 'temp'
 
   orders:  # Orders service
-    image: dockerized-orders  # Use the specified Docker image for Orders service
+    image: dockerized-ecomapp-orders  # Use the specified Docker image for Orders service
     deploy:  # Deploy configuration for Orders service
       replicas: 2  # Set the number of replicas to 2
       restart_policy:  # Define restart policy for Orders service
@@ -80,7 +80,7 @@ services:  # Define services section
     user: temp  # Set the user to 'temp'
 
   gateway:  # Gateway service
-    image: dockerized-gateway  # Use the specified Docker image for Gateway service
+    image: dockerized-ecomapp-gateway  # Use the specified Docker image for Gateway service
     deploy:  # Deploy configuration for Gateway service
       replicas: 2  # Set the number of replicas to 2
       restart_policy:  # Define restart policy for Gateway service
@@ -98,7 +98,7 @@ services:  # Define services section
     user: temp  # Set the user to 'temp'
 
   frontend:  # Frontend service
-    image: dockerized-frontend  # Use the specified Docker image for Frontend service
+    image: dockerized-ecomapp-frontend  # Use the specified Docker image for Frontend service
     deploy:  # Deploy configuration for Frontend service
       replicas: 2  # Set the number of replicas to 2
       restart_policy:  # Define restart policy for Frontend service
