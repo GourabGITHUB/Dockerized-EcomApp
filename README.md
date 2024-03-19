@@ -48,10 +48,13 @@ To run the project locally, make sure you have Docker and Docker Compose install
 4. Additionally orchestration can be performed using Docker swarm .
 
     docker swarm init
+    
+    docker secret create mongo_root_username ./db/mongo_root_username.txt
+    docker secret create mongo_root_password ./db/mongo_root_password.txt
 
     docker stack deploy -c docker-compose.yml <yourstackname>
 
 **important instructions**
 
     make sure to check the IP address range defined for the subnet to ensure it doesn't overlap with existing networks or cause conflicts and
-    modify the credentials for MongoDb as per your requirements . 
+    modify the credentials for MongoDb as per your requirements and create docker secrets for swarm since secrets are defined externally . 
