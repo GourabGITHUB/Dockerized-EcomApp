@@ -1,22 +1,22 @@
 ## Project Structure
-ecomapp/
-├── db/
+Dockerized-EcomApp/
+├── Db/
 │   ├── Dockerfile
 │   ├── mongo_root_username.txt
 │   └── mongo_root_password.txt
-├── products/
+├── Products/
 │   ├── Dockerfile
 │   └── ...
-├── frontend/
+├── Frontend/
 │   ├── Dockerfile
 │   └── ...
-├── cart/
+├── Cart/
 │   ├── Dockerfile
 │   └── ...
-├── orders/
+├── Orders/
 │   ├── Dockerfile
 │   └── ...
-├── gateway/
+├── Gateway/
 │   ├── Dockerfile
 │   └── ...
 └── docker-compose.yml
@@ -49,8 +49,8 @@ To run the project locally, make sure you have Docker and Docker Compose install
 
     docker swarm init
     
-    docker secret create mongo_root_username ./db/mongo_root_username.txt
-    docker secret create mongo_root_password ./db/mongo_root_password.txt
+    docker secret create mongo_root_username ./Db/mongo_root_username.txt
+    docker secret create mongo_root_password ./Db/mongo_root_password.txt
 
     docker stack deploy -c docker-compose.yml <yourstackname>
 

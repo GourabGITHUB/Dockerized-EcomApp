@@ -3,7 +3,7 @@ version: '3.8'  # Docker Compose file version
 services:  # Define services section
   mongodb:  # MongoDB service
     build:  # Build configuration for MongoDB service
-      context: ./db  # the context from the db directory
+      context: ./Db  # the context from the db directory
       dockerfile: Dockerfile  # specified Dockerfile for mongodb
     container_name: db  # Set the container name to 'db'
     restart: always  # Always restart the container if it stops
@@ -28,7 +28,7 @@ services:  # Define services section
 
   products:  # Products service
     build:  # Build configuration for Products service
-      context: ./products  # Use the context from the products directory
+      context: ./Products  # Use the context from the products directory
       dockerfile: Dockerfile  # specified Dockerfile for building image for products service
     container_name: products  # Set the container name to 'products'
     restart: always  # Always restart the container if it stops
@@ -48,7 +48,7 @@ services:  # Define services section
 
   frontend:  # Frontend service
     build:  # Build configuration for Frontend service
-      context: ./frontend  # Use the context from the frontend directory
+      context: ./Frontend  # Use the context from the frontend directory
       dockerfile: Dockerfile  # Use the specified Dockerfile
     container_name: frontend  # Set the container name to 'frontend'
     restart: always  # Always restart the container if it stops
@@ -65,7 +65,7 @@ services:  # Define services section
 
   cart:  # Cart service
     build:  # Build configuration for Cart service
-      context: ./cart  # Use the context from the cart directory
+      context: ./Cart  # Use the context from the cart directory
       dockerfile: Dockerfile  # Use the specified Dockerfile
     container_name: cart  # Set the container name to 'cart'
     restart: always  # Always restart the container if it stops
@@ -83,7 +83,7 @@ services:  # Define services section
 
   orders:  # Orders service
     build:  # Build configuration for Orders service
-      context: ./orders  # Use the context from the orders directory
+      context: ./Orders  # Use the context from the orders directory
       dockerfile: Dockerfile  # Use the specified Dockerfile
     container_name: orders  # Set the container name to 'orders'
     restart: always  # Always restart the container if it stops
@@ -101,7 +101,7 @@ services:  # Define services section
 
   gateway:  # Gateway service
     build:  # Build configuration for Gateway service
-      context: ./gateway  # Use the context from the gateway directory
+      context: ./Gateway  # Use the context from the gateway directory
       dockerfile: Dockerfile  # Use the specified Dockerfile
     container_name: gateway  # Set the container name to 'gateway'
     restart: always  # Always restart the container if it stops
@@ -127,9 +127,9 @@ networks:  # Define networks section
 
 secrets:  # Define secrets section
   mongo_root_username:  # MongoDB root username secret
-     file: ./db/mongo_root_username.txt  # Specify the file containing the secret
+     file: ./Db/mongo_root_username.txt  # Specify the file containing the secret
   mongo_root_password:  # MongoDB root password secret
-     file: ./db/mongo_root_password.txt  # Specify the file containing the secret
+     file: ./Db/mongo_root_password.txt  # Specify the file containing the secret
 
 volumes:  # Define volumes section
   mongodb_data:  # MongoDB data volume
