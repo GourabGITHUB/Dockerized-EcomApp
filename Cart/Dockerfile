@@ -4,14 +4,16 @@ FROM node:alpine
 # Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies
-RUN npm install express cors
-
 # Copy the rest of the application files to the working directory
-COPY . .
+COPY package*.json cart.js .
 
+
+# Install dependencies
+RUN npm install 
+
+RUN adduser -D temp
 # Expose the port on which the application will run
-EXPOSE 3000
+EXPOSE 3002
 
 # Command to run the application
 CMD ["node", "cart.js"]

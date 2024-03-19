@@ -2,21 +2,18 @@ version: '3.8'  # Docker Compose file version
 
 services:  # Define services section
   mongodb:  # MongoDB service
-    build:  # Build configuration for MongoDB service
-      context: ./db  # the context from the db directory
-      dockerfile: Dockerfile  # specified Dockerfile for mongodb
-    container_name: db  # Set the container name to 'db'
-    restart: always  # Always restart the container if it stops
+    image: ecomapp-mongodb  # Use the specified Docker image for MongoDB
+    deploy:  # Deploy configuration for MongoDB service
+      replicas: 2  # Set the number of replicas to 2
+      restart_policy:  # Define restart policy for MongoDB service
+        condition: any  # Restart the container on any failure
     networks:  # Define networks for MongoDB service
       app_network: {}  # Attach to the 'app_network' network
     ports:  # Expose ports for MongoDB service
       - "27017:27017"  # Map host port 27017 to container port 27017
-    environment:  # Set environment variables for MongoDB service
-      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongo_root_username  # Set MongoDB root username file path
-      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_root_password  # Set MongoDB root password file path
     secrets:  # Attach secrets to MongoDB service
-      - mongo_root_username  # Attach mongo_root_username secret
-      - mongo_root_password  # Attach mongo_root_password secret
+       - mongo_root_username  # Attach mongo_root_username secret
+       - mongo_root_password  # Attach mongo_root_password secret
     volumes:  # Define volumes for MongoDB service
       - mongodb_data:/data/db  # Mount volume for MongoDB data storage
     healthcheck:  # Configure health check for MongoDB service
@@ -27,11 +24,11 @@ services:  # Define services section
       start_period: 10s  # Delay before starting health checks
 
   products:  # Products service
-    build:  # Build configuration for Products service
-      context: ./products  # Use the context from the products directory
-      dockerfile: Dockerfile  # specified Dockerfile for building image for products service
-    container_name: products  # Set the container name to 'products'
-    restart: always  # Always restart the container if it stops
+    image: ecomapp-products  # Use the specified Docker image for Products service
+    deploy:  # Deploy configuration for Products service
+      replicas: 2  # Set the number of replicas to 2
+      restart_policy:  # Define restart policy for Products service
+        condition: any  # Restart the container on any failure
     networks:  # Define networks for Products service
       app_network: {}  # Attach to the 'app_network' network
     ports:  # Expose ports for Products service
@@ -39,38 +36,21 @@ services:  # Define services section
     depends_on:  # Specify dependency on MongoDB service
       - mongodb  # Depend on the MongoDB service
     healthcheck:  # Configure health check for Products service
-      test: ["CMD-SHELL", "netstat -tuln | grep ':3001 '"]  # Health check command with non-root user 
+      test: ["CMD-SHELL", "netstat -tuln | grep ':3001 '"]  # Health check command
       interval: 30s  # Health check interval
       timeout: 10s  # Health check timeout
       retries: 3  # Number of retries for health check
       start_period: 10s  # Delay before starting health checks
-    user: temp  # Set the user to 'temp' for running container as a non-root user 
-
-  frontend:  # Frontend service
-    build:  # Build configuration for Frontend service
-      context: ./frontend  # Use the context from the frontend directory
-      dockerfile: Dockerfile  # Use the specified Dockerfile
-    container_name: frontend  # Set the container name to 'frontend'
-    restart: always  # Always restart the container if it stops
-    networks:  # Define networks for Frontend service
-      app_network: {}  # Attach to the 'app_network' network
-    ports:  # Expose ports for Frontend service
-      - "80:80"  # Map host port 80 to container port 80
-    healthcheck:  # Configure health check for Frontend service
-      test: ["CMD-SHELL", "curl -f http://localhost/index.html && exit 0 || exit 1 "]  # Health check command 
-      interval: 30s  # Health check interval
-      timeout: 10s  # Health check timeout
-      retries: 3  # Number of retries for health check
-      start_period: 10s  # Delay before starting health checks
+    user: temp  # Set the user to 'temp'
 
   cart:  # Cart service
-    build:  # Build configuration for Cart service
-      context: ./cart  # Use the context from the cart directory
-      dockerfile: Dockerfile  # Use the specified Dockerfile
-    container_name: cart  # Set the container name to 'cart'
-    restart: always  # Always restart the container if it stops
+    image: ecomapp-cart  # Use the specified Docker image for Cart service
+    deploy:  # Deploy configuration for Cart service
+      replicas: 2  # Set the number of replicas to 2
+      restart_policy:  # Define restart policy for Cart service
+        condition: any  # Restart the container on any failure
     networks:  # Define networks for Cart service
-      app_network: {}  # Attach to the 'app_network' network
+      - app_network  # Attach to the 'app_network' network
     ports:  # Expose ports for Cart service
       - "3002:3002"  # Map host port 3002 to container port 3002
     healthcheck:  # Configure health check for Cart service
@@ -82,11 +62,11 @@ services:  # Define services section
     user: temp  # Set the user to 'temp'
 
   orders:  # Orders service
-    build:  # Build configuration for Orders service
-      context: ./orders  # Use the context from the orders directory
-      dockerfile: Dockerfile  # Use the specified Dockerfile
-    container_name: orders  # Set the container name to 'orders'
-    restart: always  # Always restart the container if it stops
+    image: ecomapp-orders  # Use the specified Docker image for Orders service
+    deploy:  # Deploy configuration for Orders service
+      replicas: 2  # Set the number of replicas to 2
+      restart_policy:  # Define restart policy for Orders service
+        condition: any  # Restart the container on any failure
     networks:  # Define networks for Orders service
       app_network: {}  # Attach to the 'app_network' network
     ports:  # Expose ports for Orders service
@@ -100,13 +80,13 @@ services:  # Define services section
     user: temp  # Set the user to 'temp'
 
   gateway:  # Gateway service
-    build:  # Build configuration for Gateway service
-      context: ./gateway  # Use the context from the gateway directory
-      dockerfile: Dockerfile  # Use the specified Dockerfile
-    container_name: gateway  # Set the container name to 'gateway'
-    restart: always  # Always restart the container if it stops
+    image: ecomapp-gateway  # Use the specified Docker image for Gateway service
+    deploy:  # Deploy configuration for Gateway service
+      replicas: 2  # Set the number of replicas to 2
+      restart_policy:  # Define restart policy for Gateway service
+        condition: any  # Restart the container on any failure
     networks:  # Define networks for Gateway service
-      app_network: {}  # Attach to the 'app_network' network
+      - app_network  # Attach to the 'app_network' network
     ports:  # Expose ports for Gateway service
       - "3000:3000"  # Map host port 3000 to container port 3000
     healthcheck:  # Configure health check for Gateway service
@@ -117,19 +97,36 @@ services:  # Define services section
       start_period: 10s  # Delay before starting health checks
     user: temp  # Set the user to 'temp'
 
+  frontend:  # Frontend service
+    image: ecomapp-frontend  # Use the specified Docker image for Frontend service
+    deploy:  # Deploy configuration for Frontend service
+      replicas: 2  # Set the number of replicas to 2
+      restart_policy:  # Define restart policy for Frontend service
+        condition: any  # Restart the container on any failure
+    networks:  # Define networks for Frontend service
+      app_network: {}  # Attach to the 'app_network' network
+    ports:  # Expose ports for Frontend service
+      - "80:80"  # Map host port 80 to container port 80
+    healthcheck:  # Configure health check for Frontend service
+      test: ["CMD-SHELL", "curl -f http://localhost/index.html && exit 0 || exit 1 "]  # Health check command
+      interval: 30s  # Health check interval
+      timeout: 10s  # Health check timeout
+      retries: 3  # Number of retries for health check
+      start_period: 10s  # Delay before starting health checks
+
 networks:  # Define networks section
   app_network:  # Define app_network network
-     driver: bridge  # Use bridge network driver
-     ipam:  # IP Address Management configuration for app_network
+    driver: overlay  # Use overlay network driver
+    ipam:  # IP Address Management configuration for app_network
       driver: default  # Use default IPAM driver
       config:  # Configuration for IPAM
-        - subnet: 172.19.0.0/24  # Specified subnet for the network
+         - subnet: 172.20.0.0/24  # Specify the subnet for the network
 
 secrets:  # Define secrets section
   mongo_root_username:  # MongoDB root username secret
-     file: ./db/mongo_root_username.txt  # Specify the file containing the secret
+    external: true  # Use an externally defined secret
   mongo_root_password:  # MongoDB root password secret
-     file: ./db/mongo_root_password.txt  # Specify the file containing the secret
+    external: true  # Use an externally defined secret
 
 volumes:  # Define volumes section
   mongodb_data:  # MongoDB data volume

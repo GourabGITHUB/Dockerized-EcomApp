@@ -4,12 +4,14 @@ FROM node:alpine
 # Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies
-RUN npm install express cors http-proxy-middleware
-
 # Copy the rest of the application files to the working directory
-COPY . .
+COPY package*.json gateway.js .
 
+# Install dependencies
+RUN npm install 
+
+
+RUN adduser -D temp
 # Expose the port on which the application will run
 EXPOSE 3000
 

@@ -1,11 +1,8 @@
-# Using the official Nginx Alpine image as the base image
+FROM httpd:alpine
 
-FROM nginx:alpine
+# Set the working directory
+WORKDIR /usr/local/apache2/htdocs/
 
-# Copying HTML files to the Nginx document root
-
-COPY . /usr/share/nginx/html
-
-# Expose port 80, which is the default port for HTTP
+COPY index.html app.js .
 
 EXPOSE 80

@@ -3,121 +3,176 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-commerce App</title>
-  <!-- Link to FontAwesome for the cart icon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Product List</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f4f4f4;
     }
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    h1 {
+.loading-overlay .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+.loading-overlay p {
+    text-align: center; /* Horizontally center the text */
+    margin-top: 10px; /* Add some space between the spinner and the text */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    h1, h2 {
       text-align: center;
       color: #333;
+      margin-top: 0;
+      padding: 20px 0;
+      background-color: #f8f9fa;
     }
-
-    #products, #cart, #orders {
-
-      background-color: #fff;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	
-    }
-
-    ul {
+    .product {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-
-      list-style: none;
-      padding: 0;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
     }
-
-    li {
-      margin: 1rem;
+    .product span {
+      font-size: 18px;
     }
-
-    button {
-      background-color: #4caf50;
+    .product button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .product button:hover {
+      background-color: #0056b3;
+    }
+    .cart {
+      padding: 18px;
+      border-top: 2px solid #ccc;
+    }
+    .cart h2 {
+      margin-top: 0;
+    }
+    .cart-item {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+    }
+    .cart-item button {
+      background-color: #007bff;
       color: #fff;
       border: none;
       padding: 8px 12px;
-      border-radius: 4px;
       cursor: pointer;
+      border-radius: 5px;
     }
-
-    button:hover {
-      background-color: #45a049;
+    .cart-item button:hover {
+      background-color: #0056b3;
     }
-
-    #cart-items li {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    #cart-items .product-name {
-      flex-grow: 1;
-      margin-right: 10px;
-    }
-
-    #cart-items .product-price {
-      font-weight: bold;
-    }
-
-    #cart-icon {
-      font-size: 24px;
-      color: #333;
-      position: relative;
-      cursor: pointer;
-    }
-
-    #cart-tooltip {
-      display: none;
-      position: absolute;
-      background-color: #333;
+    #placeOrderBtn {
+      background-color: #28a745;
       color: #fff;
-      padding: 10px;
-      border-radius: 4px;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    #cart-icon:hover #cart-tooltip {
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
       display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #placeOrderBtn:hover {
+      background-color: #218838;
+    }
+    #orders {
+padding: 10px 20px;
+    word-spacing: 2px;
+  white-space: nowrap;
+
+  line-height: 2;
+
+  }
+    .order {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+    }
+    .order h3 {
+      margin-top: 0;
+    }
+    .order p {
+      margin-bottom: 5px;
     }
   </style>
 </head>
 <body>
-  <h1>E-commerce App</h1>
-  
-  <div id="products">
-    <h2>Products</h2>
-    <ul id="product-list"></ul>
+  <div class="container">
+    <h1>Product List</h1>
+    <div id="productList">
+      <!-- Example product item -->
+      <div class="product">
+        <span>Product Name - $20</span>
+        <button class="add-to-cart" data-productId="123" data-productName="Product Name" data-productPrice="20">Add to Cart</button>
+      </div>
+      <!-- More product items can be added here -->
+    </div>
   </div>
 
-  <div id="cart">
-    <h2>
-      <!-- Cart icon with tooltip -->
-      <i id="cart-icon" class="fas fa-shopping-cart"></i>
-      <span id="cart-tooltip">Total Orders: $<span id="total-orders">0.00</span></span>
-      Cart
-    </h2>
-    <ul id="cart-items"></ul>
-    <button onclick="placeOrder()">Place Order</button>
+  <div class="container cart" id="cart">
+    <h2>Cart</h2>
+    <div id="cartItems">
+      <!-- Cart items will be dynamically added here -->
+    </div>
+    <div id="totalPrice"></div>
+    <button id="placeOrderBtn">Place Order</button>
   </div>
-  
 
-<div id="orders">
-  <h2>Total Orders: $<span id="total-orders-price">0.00</span></h2>
-  <ul id="order-list"></ul>
+ <div class="container" id="ordersContainer">
+    <h2>Orders</h2>
+    <div id="orders">
+        <!-- Placed orders will be displayed here -->
+
+    </div>
+
+    <div id="totalPrice"></div>
 </div>
-
   <script src="app.js"></script>
 </body>
 </html>
